@@ -12,11 +12,7 @@ gpu_raw_buffer_container serialize_gpu_message_to_gpu_containers(ral::frame::Bla
     std::vector<ColumnTransport> column_offset;
     std::vector<std::unique_ptr<rmm::device_buffer>> temp_scope_holder;
     for(int i = 0; i < table_view.num_columns(); ++i) {
-		std::cout << "----Table column[" << i << "] " << table_view.names()[i] << std::endl;
-		std::cout << "Table num_rows : " << table_view.num_rows() << std::endl;
         const cudf::column_view&column = table_view.column(i);
-		std::cout << "--column[" << i << "] size : " << column.size() << std::endl;
-		std::cout << "--column[" << i << "] type().id() : " <<  (int32_t)column.type().id() << std::endl;
         ColumnTransport col_transport = ColumnTransport{ColumnTransport::MetaData{
                                                             .dtype = (int32_t)column.type().id(),
                                                             .size = column.size(),
@@ -99,8 +95,8 @@ gpu_raw_buffer_container serialize_gpu_message_to_gpu_containers(ral::frame::Bla
 			//if (raw_buffers.size() > 0)
             col_transport.data = raw_buffers.size();
 			std::cout << "buffer_sizes.size(): " << buffer_sizes.size() << std::endl;
-			std::cout << "size_column: " << column.size() << std::endl;
-			std::cout << "cudf::size_of(column.type()): " << cudf::size_of(column.type()) << std::endl;
+			std::cout << "column num_rows(): " << column.size() << std::endl;
+			std::cout << "size in bytes dtype: " << cudf::size_of(column.type()) << std::endl;
             buffer_sizes.push_back(column.size() * cudf::size_of(column.type()));
 			std::cout << "buffer_sizes.size(): " << buffer_sizes.size() << std::endl;
 			std::cout << "buffer_sizes[0]: " << buffer_sizes[0] << std::endl;
