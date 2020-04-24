@@ -39,7 +39,7 @@ public:
   }
 
   virtual raw_buffer GetRawColumns() {
-    std::vector<int> bufferSizes;
+    std::vector<unsigned long long int> bufferSizes;
     std::vector<const char *> buffers;
     std::vector<ColumnTransport> column_offset;
     std::vector<std::unique_ptr<rmm::device_buffer>> temp_scope_holder;
