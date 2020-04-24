@@ -23,7 +23,7 @@ namespace io {
 
 
 // numBuffers should be equal to number of threads
-PinnedBufferProvider::PinnedBufferProvider(std::size_t sizeBuffers,
+PinnedBufferProvider::PinnedBufferProvider(unsigned long long int sizeBuffers,
                                            std::size_t numBuffers) {
   for (int bufferIndex = 0; bufferIndex < numBuffers; bufferIndex++) {
     PinnedBuffer *buffer = new PinnedBuffer();
@@ -77,7 +77,7 @@ void PinnedBufferProvider::freeAll() {
   }
 }
 
-std::size_t PinnedBufferProvider::sizeBuffers() { return this->bufferSize; }
+unsigned long long int PinnedBufferProvider::sizeBuffers() { return this->bufferSize; }
 
 static std::shared_ptr<PinnedBufferProvider> global_instance{};
 
@@ -231,7 +231,7 @@ void writeBuffersFromGPUTCP(std::vector<ColumnTransport> &column_transport,
   getPinnedBufferProvider().freeAll();
 }
 
-void readBuffersIntoGPUTCP(std::vector<int> bufferSizes,
+void readBuffersIntoGPUTCP(std::vector<unsigned long long int> bufferSizes,
                                           void *fileDescriptor, int gpuNum, std::vector<rmm::device_buffer> &tempReadAllocations) 
 {
   std::vector<std::thread> allocationThreads(bufferSizes.size());
@@ -307,7 +307,7 @@ void readBuffersIntoCPUTCP(std::vector<unsigned long long int> bufferSizes,
         throw std::exception();
       }
       copyThreads.push_back(std::thread(
-          [&tempReadAllocations, bufferIndex,
+          [&tempReadAllocations, &bufferSizes, &allocationThreads, bufferIndex,
            buffer, amountRead, amountReadTotal, gpuNum]() {
             cudaSetDevice(gpuNum);
             cudaMemcpyAsync((void *)tempReadAllocations[bufferIndex].data() + amountReadTotal,

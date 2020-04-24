@@ -14,19 +14,19 @@ namespace io {
 using Buffer = std::basic_string<char>;
 
 struct PinnedBuffer {
-  std::size_t size;
+  unsigned long long int size;
   char *data;
 };
 
 class PinnedBufferProvider {
 public:
-  PinnedBufferProvider(std::size_t sizeBuffers, std::size_t numBuffers);
+  PinnedBufferProvider(unsigned long long int sizeBuffers, std::size_t numBuffers);
 
   PinnedBuffer *getBuffer();
 
   void freeBuffer(PinnedBuffer *buffer);
 
-  std::size_t sizeBuffers();
+  unsigned long long int sizeBuffers();
 
   void freeAll();
 
@@ -39,7 +39,7 @@ private:
 
   std::stack<PinnedBuffer *> buffers;
 
-  std::size_t bufferSize;
+  unsigned long long int bufferSize;
 };
 // Memory Pool
 PinnedBufferProvider &getPinnedBufferProvider();
