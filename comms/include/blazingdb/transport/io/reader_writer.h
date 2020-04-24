@@ -51,10 +51,10 @@ void writeBuffersFromGPUTCP(std::vector<ColumnTransport> &column_transport,
                             std::vector<const char *> buffers, void *fileDescriptor,
                             int gpuNum);
 
-void readBuffersIntoGPUTCP(std::vector<int> bufferSizes,
+void readBuffersIntoGPUTCP(std::vector<unsigned long long int> bufferSizes,
                                           void *fileDescriptor, int gpuNum, std::vector<rmm::device_buffer> &);
 
-void readBuffersIntoCPUTCP(std::vector<int> bufferSizes,
+void readBuffersIntoCPUTCP(std::vector<unsigned long long int> bufferSizes,
                                           void *fileDescriptor, int gpuNum, std::vector<Buffer> &);
 
 }  // namespace io

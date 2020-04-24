@@ -104,7 +104,6 @@ gpu_raw_buffer_container serialize_gpu_message_to_gpu_containers(ral::frame::Bla
 
 			raw_buffers.push_back(column.head<char>() + column.offset() * cudf::size_of(column.type())); // here we are getting the beginning of the buffer and manually calculating the offset.
             if(column.has_nulls()) {
-				std::cout << "has_nulls()" << std::endl;
                 col_transport.valid = raw_buffers.size();
                 buffer_sizes.push_back(cudf::bitmask_allocation_size_bytes(column.size()));
 				col_transport.size_in_bytes += cudf::bitmask_allocation_size_bytes(column.size());

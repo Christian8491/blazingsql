@@ -279,7 +279,7 @@ void readBuffersIntoGPUTCP(std::vector<int> bufferSizes,
   // return tempReadAllocations;
 }
 
-void readBuffersIntoCPUTCP(std::vector<int> bufferSizes,
+void readBuffersIntoCPUTCP(std::vector<unsigned long long int> bufferSizes,
                                           void *fileDescriptor, int gpuNum, std::vector<Buffer> & tempReadAllocations)
 {
   std::vector<std::thread> allocationThreads(bufferSizes.size());
@@ -307,7 +307,7 @@ void readBuffersIntoCPUTCP(std::vector<int> bufferSizes,
         throw std::exception();
       }
       copyThreads.push_back(std::thread(
-          [&tempReadAllocations, &bufferSizes, &allocationThreads, bufferIndex,
+          [&tempReadAllocations, bufferIndex,
            buffer, amountRead, amountReadTotal, gpuNum]() {
             cudaSetDevice(gpuNum);
             cudaMemcpyAsync((void *)tempReadAllocations[bufferIndex].data() + amountReadTotal,
